@@ -120,7 +120,9 @@
         <span>Built from BibTeX · Updated {{ updated }}</span>
       </footer>
 
-      <section class="block secret" id="play" hidden aria-labelledby="play-h">
+      <section class="block secret" id="play" hidden role="dialog" aria-modal="true" aria-labelledby="play-h">
+        <div class="secret-inner">
+        <button type="button" class="abtn secret-close" data-act="close" aria-label="Close the game">Esc <span aria-hidden="true">×</span></button>
         <h2 id="play-h">You kept scrolling</h2>
         <p class="secret-lede">This is Thomas Schelling’s model of segregation. Each square is content when enough of its neighbours share its colour; outlined squares are not, and move. Set how much alike company each square wants, press play, and watch mild preferences add up to a sorted board. Pause at any point to move squares yourself.</p>
         <div class="arcade">
@@ -179,6 +181,7 @@
             <p class="refs">Schelling, T. C. (1971). Dynamic models of segregation. <i>Journal of Mathematical Sociology</i>, 1(2), 143–186. · Schelling, T. C. (1978). <i>Micromotives and Macrobehavior</i>. Norton. · Zhang, J. (2004). Residential segregation in an all-integrationist world. <i>Journal of Economic Behavior &amp; Organization</i>, 54(4), 533–550. · Pancs, R., &amp; Vriend, N. J. (2007). Schelling’s spatial proximity model of segregation revisited. <i>Journal of Public Economics</i>, 91(1–2), 1–24.</p>
           </div>
         </details>
+        </div>
       </section>
       <div class="overscroll" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </main>

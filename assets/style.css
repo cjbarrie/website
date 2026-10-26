@@ -303,7 +303,8 @@ button.pill:hover { background: color-mix(in srgb, var(--tc) 15%, transparent); 
 .pill .n { font-weight: 400; color: var(--c-ink-3); font-variant-numeric: tabular-nums; margin-left: 2px; }
 .pill[aria-pressed="true"] .n { color: inherit; opacity: 0.7; }
 .pill .nw { opacity: 0.6; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pill .n { position: relative; }
+.sr { position: absolute; top: 0; left: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .count-key { margin-left: auto; align-self: center; font-size: var(--t-xs); color: var(--c-ink-3); white-space: nowrap; }
 .count-key span { opacity: 0.6; }
 .count-key i { font-style: normal; opacity: 0.6; }
@@ -365,9 +366,55 @@ button.pill:hover { background: color-mix(in srgb, var(--tc) 15%, transparent); 
 }
 .overscroll i { width: 6px; height: 6px; border-radius: 1px; box-shadow: inset 0 0 0 1px var(--c-ink-3); transition: background-color 160ms var(--ease), box-shadow 160ms var(--ease); }
 .overscroll i.on { background: var(--c-accent); box-shadow: none; }
-.secret { border-top: 0; padding-top: var(--s-5); padding-bottom: var(--s-9); scroll-margin-top: var(--s-6); }
-@media (max-width: 960px) { .secret { scroll-margin-top: 112px; } }
-.secret.enter { animation: enter 600ms var(--ease) both; }
+/* The game: a full-screen overlay over the blurred page */
+html.game-open { overflow: hidden; }
+html.game-open body > :not(#play) { filter: blur(10px) saturate(0.8); pointer-events: none; user-select: none; }
+body > :not(#play) { transition: filter 360ms var(--ease); }
+.secret {
+  position: fixed; inset: 0; z-index: 100; overflow-y: auto; overscroll-behavior: contain;
+  max-width: none; margin: 0; padding: var(--s-7) var(--s-5) var(--s-8); border-top: 0; overflow-x: hidden;
+  background: color-mix(in srgb, var(--c-bg) 55%, transparent);
+}
+.secret[hidden] { display: none; }
+.secret-inner { position: relative; max-width: 940px; margin: 0 auto; }
+.secret h2 { padding-right: 120px; }
+.secret-close { position: absolute; top: 0; right: 0; z-index: 1; display: inline-flex; gap: 8px; align-items: center;
+  --arc-panel: #1d1d1a; --arc-ink: #f0efea; --arc-line: #2d2d29; --arc-accent: #e0a65a; --f-pixel: "Silkscreen", ui-monospace, monospace; }
+.secret-close span { font-size: 14px; line-height: 1; }
+.secret.enter { animation: pop-in 420ms var(--ease) both; }
+.secret.enter .secret-inner { animation: enter 520ms var(--ease) both; }
+@keyframes pop-in { from { background-color: transparent; } }
+.secret.settling { overflow-y: hidden; }
+/* Wide screens: board on the left, everything else in a column beside it,
+   so the board, readouts and controls all fit on screen at once. */
+@media (min-width: 1100px) {
+  .secret-inner { max-width: 1320px; }
+  .secret .arcade {
+    display: grid; grid-template-columns: minmax(0, 1fr) 300px; column-gap: var(--s-5); align-content: start;
+    grid-template-areas: "top top" "screen levels" "screen note" "screen hud" "screen chart" "screen legend" "screen panel" "screen .";
+    grid-template-rows: auto auto auto auto auto auto auto 1fr;
+  }
+  .secret .arc-top { grid-area: top; }
+  .secret .arc-levels { grid-area: levels; }
+  .secret .game-note { grid-area: note; min-height: 0; }
+  .secret .arc-hud { grid-area: hud; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--s-4); }
+  .secret .arc-screen { grid-area: screen; align-self: start; }
+  .secret .game-chart { grid-area: chart; margin-top: 0; height: 72px; }
+  .secret .game-legend { grid-area: legend; }
+  .secret .arc-panel { grid-area: panel; }
+  .secret .gslider { max-width: none; flex: 1 1 120px; }
+  .secret .arc-panel { column-gap: var(--s-4); }
+  .secret .game-acts { margin-left: 0; flex-wrap: wrap; }
+  .secret .secret-lede { max-width: 100ch; font-size: var(--t-sm); margin-bottom: var(--s-4); }
+  .secret h2 { margin-bottom: var(--s-2); }
+  .secret { padding-top: var(--s-5); }
+  .secret .arc-hud { padding: var(--s-2) var(--s-3); }
+}
+@media (max-width: 600px) {
+  .secret { padding: var(--s-5) var(--s-3) var(--s-7); }
+  .secret h2 { padding-right: 96px; }
+}
+@media (prefers-reduced-motion: reduce) { body > :not(#play) { transition: none; } .secret.enter, .secret.enter .secret-inner { animation: none; } }
 .secret-lede { color: var(--c-ink-2); max-width: 60ch; margin-bottom: var(--s-5); }
 /* The cabinet: a dark screen in both themes, the site's colours and squares,
    a pixel face (Silkscreen) for everything that reads as the machine. */

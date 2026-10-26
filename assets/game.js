@@ -1,5 +1,5 @@
-// Easter egg: keep scrolling past the bottom of the page and a playable
-// Schelling model appears below the footer.
+// Easter egg: keep scrolling past the bottom of the page (or open #play) and a
+// playable Schelling model opens full screen over the blurred page.
 //
 // The model runs in rounds. In each round every discontented square gets a
 // chance to move (MOVE_P). One that does looks at a few random empty cells
@@ -32,7 +32,7 @@
     showHint();
     clearTimeout(idle);
     idle = setTimeout(() => { push = 0; showHint(); }, 900);
-    if (push >= NEED) reveal(true);
+    if (push >= NEED) reveal();
   }
   window.addEventListener("wheel", (ev) => nudge(ev.deltaY * (ev.deltaMode ? 16 : 1)), { passive: true });
   let ty = null;
@@ -47,14 +47,55 @@
     if (["ArrowDown", "PageDown", "End", " "].includes(ev.key) && !/input|textarea/i.test(ev.target.tagName)) nudge(180);
   });
 
-  function reveal(scroll) {
+  // The game opens as a full-screen overlay; the page behind it is blurred.
+  // It lives directly under <body> so nothing on the page can clip or blur it.
+  const root = document.documentElement;
+  const closeBtn = sec.querySelector('[data-act="close"]');
+  let opener = null;
+  document.body.appendChild(sec);
+
+  function reveal() {
     if (!sec.hidden) return;
+    opener = document.activeElement;
     sec.hidden = false;
-    sec.classList.add("enter");
-    if (hint) { push = NEED; showHint(); setTimeout(() => (hint.style.opacity = 0), 500); }
+    sec.scrollTop = 0;
+    // Hold the overlay still briefly so the scroll that opened it doesn't carry on inside it.
+    settle(700);
+    root.classList.add("game-open");
+    sec.classList.remove("enter"); void sec.offsetWidth; sec.classList.add("enter");
+    if (hint) { push = NEED; showHint(); setTimeout(() => { push = 0; showHint(); }, 500); }
     init();
-    if (scroll) requestAnimationFrame(() => sec.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }));
+    requestAnimationFrame(() => { drawChart(); if (closeBtn) closeBtn.focus({ preventScroll: true }); });
   }
+
+  function close() {
+    if (sec.hidden) return;
+    pause();
+    sec.hidden = true;
+    root.classList.remove("game-open");
+    if (location.hash === "#play") window.history.replaceState(null, "", location.pathname + location.search);
+    if (opener && opener.focus) opener.focus({ preventScroll: true });
+  }
+  // The scroll gesture that opened the game keeps firing (trackpad momentum);
+  // swallow it until it has stopped for a moment.
+  let settleT;
+  function settle(ms) {
+    sec.classList.add("settling");
+    clearTimeout(settleT);
+    settleT = setTimeout(() => sec.classList.remove("settling"), ms);
+  }
+  sec.addEventListener("wheel", (ev) => {
+    if (!sec.classList.contains("settling")) return;
+    ev.preventDefault();
+    settle(350);
+  }, { passive: false });
+  if (closeBtn) closeBtn.addEventListener("click", close);
+  // Clicking the blurred page around the cabinet closes it too.
+  sec.addEventListener("click", (ev) => { if (ev.target === sec) close(); });
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape" && !sec.hidden) { ev.preventDefault(); close(); }
+  });
+  window.addEventListener("hashchange", () => { if (location.hash === "#play") reveal(); });
 
   // --- Variants ----------------------------------------------------------------
   // groups: population shares. R: neighbourhood radius. cap: the largest alike
@@ -245,7 +286,14 @@
   // --- Board setup -----------------------------------------------------------------
   const availW = () => {
     const p = canvas.parentElement, cs = getComputedStyle(p);
-    return p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    let w = p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    // On wide screens the board sits beside the controls; size it to fit the window's height too.
+    if (window.innerWidth >= 1100) {
+      const top = p.getBoundingClientRect().top - sec.getBoundingClientRect().top + sec.scrollTop + parseFloat(cs.paddingTop);
+      const h = window.innerHeight - top - parseFloat(cs.paddingBottom) - 40;
+      if (h > 240) w = Math.min(w, Math.floor(h * 40 / 24));
+    }
+    return w;
   };
   function layout() {
     const w = availW();
@@ -333,7 +381,7 @@
   function drawChart() {
     const w = chart.clientWidth, h = chart.clientHeight;
     if (!w || !h) return;
-    if (chart.width !== Math.round(w * DPR)) { chart.width = Math.round(w * DPR); chart.height = Math.round(h * DPR); }
+    if (chart.width !== Math.round(w * DPR) || chart.height !== Math.round(h * DPR)) { chart.width = Math.round(w * DPR); chart.height = Math.round(h * DPR); }
     cctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     cctx.clearRect(0, 0, w, h);
     const padL = 38, padR = 6, padT = 6, padB = 16;
@@ -561,5 +609,5 @@
     });
   }
 
-  if (location.hash === "#play") reveal(true);
+  if (location.hash === "#play") reveal();
 })();
