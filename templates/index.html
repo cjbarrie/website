@@ -87,8 +87,9 @@
           </label>
         </div>
         <div class="topic-bar" role="group" aria-label="Filter by research area">
-          <button type="button" class="pill all" data-view="all" aria-pressed="true">All <span class="n">{{ n_published }}</span></button>
+          <button type="button" class="pill all" data-view="all" aria-pressed="true">All {{ all_count }}</button>
           {{ topic_filters }}
+          <span class="count-key" aria-hidden="true">Published <i>·</i> <span>working</span></span>
         </div>
         <ol class="papers">
           {{ published }}

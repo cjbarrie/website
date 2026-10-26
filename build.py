@@ -296,6 +296,13 @@ def render_talks(talks, keep=8):
     return "\n".join(out)
 
 
+def count_html(n_pub, n_work):
+    """Published count, then the working-paper count in a lighter tone (e.g. "9 · 2")."""
+    label = f"{n_pub} published, {n_work} working"
+    return (f'<span class="n" title="{label}"><span class="sr">{label}</span>'
+            f'<span aria-hidden="true">{n_pub}<span class="nw">\u2009·\u2009{n_work}</span></span></span>')
+
+
 def top_venues(profile, published):
     if profile.get("top_venues"):
         return profile["top_venues"]
@@ -364,11 +371,14 @@ def build():
         "venue_line": " <i>·</i> ".join("<em>%s</em>" % e(v) for v in venues),
         "topic_filters": "".join(
             pill(t["key"], "button", f' type="button" aria-pressed="false"')
-            .replace("</button>", f'<span class="n">{sum(t["key"] in paper_topics(p) for p in published)}</span></button>')
+            .replace("</button>", count_html(
+                sum(t["key"] in paper_topics(p) for p in published),
+                sum(t["key"] in paper_topics(p) for p in working)) + "</button>")
             for t in topics
         ),
         "topic_links": "".join("<li>" + pill(t["key"], "button", ' type="button" data-jump') + "</li>" for t in topics),
         "n_published": str(len(published)),
+        "all_count": count_html(len(published), len(working)),
         "n_working": str(len(working)),
         "site_url": e(profile.get("site_url", "").rstrip("/")),
         "description": e(profile.get("tagline", "")),

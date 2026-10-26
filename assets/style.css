@@ -290,7 +290,7 @@ button.pill { cursor: pointer; }
 button.pill:hover { background: color-mix(in srgb, var(--tc) 15%, transparent); }
 
 .topic-bar { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: calc(-1 * var(--s-2)) 0 var(--s-5); }
-.topic-bar .pill { height: 28px; padding: 0 12px; color: var(--c-ink-2); background: transparent; box-shadow: inset 0 0 0 1px var(--c-line); }
+.topic-bar .pill { height: 28px; padding: 0 10px; color: var(--c-ink-2); background: transparent; box-shadow: inset 0 0 0 1px var(--c-line); }
 .topic-bar .pill:hover { color: var(--c-ink); background: var(--c-surface); }
 .topic-bar .pill[aria-pressed="true"] {
   color: color-mix(in srgb, var(--tc) 88%, var(--c-ink));
@@ -298,10 +298,15 @@ button.pill:hover { background: color-mix(in srgb, var(--tc) 15%, transparent); 
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tc) 35%, transparent);
 }
 /* Selected / All sit first, set slightly apart from the areas. */
-.topic-bar [data-view="all"] { margin-right: var(--s-3); }
+.topic-bar [data-view="all"] { margin-right: var(--s-2); }
 .topic-bar .pill.all[aria-pressed="true"] { color: var(--c-bg); background: var(--c-ink); box-shadow: none; }
 .pill .n { font-weight: 400; color: var(--c-ink-3); font-variant-numeric: tabular-nums; margin-left: 2px; }
 .pill[aria-pressed="true"] .n { color: inherit; opacity: 0.7; }
+.pill .nw { opacity: 0.6; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.count-key { margin-left: auto; align-self: center; font-size: var(--t-xs); color: var(--c-ink-3); white-space: nowrap; }
+.count-key span { opacity: 0.6; }
+.count-key i { font-style: normal; opacity: 0.6; }
 
 .ptopics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--s-2); }
 .ptopics .pill { height: 20px; padding: 0 8px; font-size: 11px; gap: 5px; cursor: pointer; }
