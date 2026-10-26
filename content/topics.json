@@ -1,0 +1,8 @@
+[
+  {"key": "protest", "label": "Protest & mobilization", "short": "Protest", "color": "#b4573f", "color_dark": "#e3917b"},
+  {"key": "conflict", "label": "Conflict & violence", "short": "Conflict", "color": "#8c4f6f", "color_dark": "#d494b6"},
+  {"key": "identity", "label": "Identity & attitudes", "short": "Identity", "color": "#6a5a9c", "color_dark": "#a99ae0"},
+  {"key": "media", "label": "Media & information", "short": "Media", "color": "#356a9a", "color_dark": "#7fb0e0"},
+  {"key": "ai", "label": "AI & language models", "short": "AI", "color": "#a8701a", "color_dark": "#e3ae5c"},
+  {"key": "methods", "label": "Methods & reproducibility", "short": "Methods", "color": "#3f7a5a", "color_dark": "#82c09d"}
+]

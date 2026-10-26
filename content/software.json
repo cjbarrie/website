@@ -1,0 +1,22 @@
+[
+  {
+    "name": "academictwitteR",
+    "language": "R",
+    "description": "Collect tweets and user data from the Twitter Academic Research API v2, built for social science research.",
+    "links": {
+      "GitHub": "https://github.com/cjbarrie/academictwitteR",
+      "CRAN": "https://CRAN.R-project.org/package=academictwitteR",
+      "Paper": "https://doi.org/10.21105/joss.03272"
+    }
+  },
+  {
+    "name": "promptstability",
+    "language": "Python",
+    "description": "Score how stable large language model text annotations are across prompt variations.",
+    "links": {
+      "GitHub": "https://github.com/cjbarrie/promptstability",
+      "PyPI": "https://pypi.org/project/promptstability/",
+      "Paper": "https://arxiv.org/abs/2407.02039"
+    }
+  }
+]

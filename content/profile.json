@@ -1,0 +1,49 @@
+{
+  "name": "Christopher Barrie",
+  "title": "Assistant Professor of Sociology",
+  "affiliation_short": "New York University",
+  "brand_line": "Computational Sociology",
+  "tagline": "Computational social science, language models, and political contention.",
+  "photo": "assets/photo.jpg",
+  "bio": [
+    "I am a computational sociologist at New York University. My substantive work is on protest, conflict, communication, and political attitudes.",
+    "Methodologically, I work on natural language processing, large language models, and repurposing digital trace data for social science research."
+  ],
+  "focus": [
+    "Protest and contentious politics",
+    "Political communication and attitudes",
+    "Language models as measurement tools",
+    "Digital trace data"
+  ],
+  "affiliations": [
+    {
+      "role": "Assistant Professor",
+      "org": "Department of Sociology, New York University",
+      "url": "https://as.nyu.edu/departments/sociology.html"
+    },
+    {
+      "role": "Core Faculty",
+      "org": "Center for Social Media, AI, and Politics (CSMaP), NYU",
+      "url": "https://csmapnyu.org"
+    }
+  ],
+  "links": {
+    "email": "cb5691@nyu.edu",
+    "github": "https://github.com/cjbarrie",
+    "scholar": "https://scholar.google.com/citations?user=zNU2JxEAAAAJ",
+    "linkedin": "https://www.linkedin.com/in/christopher-barrie-741a0455/",
+    "cv": ""
+  },
+  "self_name": "Barrie",
+  "top_venues": [
+    "American Journal of Sociology",
+    "PNAS",
+    "Nature Human Behaviour",
+    "Political Analysis",
+    "British Journal of Political Science",
+    "Perspectives on Politics",
+    "Sociological Science"
+  ],
+  "top_venues_count": 6,
+  "site_url": "https://cjbarrie.github.io"
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Not found · {{ name }}</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  {{ topic_css }}
+</head>
+<body>
+  <main class="nf">
+    <svg class="mark nf-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect class="t-protest" x="2" y="2" width="8" height="8" rx="1"/>
+          <rect class="t-protest" x="12" y="2" width="8" height="8" rx="1"/>
+          <rect class="t-protest" x="2" y="12" width="8" height="8" rx="1"/>
+          <rect class="t-media" x="12" y="12" width="8" height="8" rx="1"/>
+          <rect class="t-media" x="22" y="12" width="8" height="8" rx="1"/>
+          <rect class="t-media" x="12" y="22" width="8" height="8" rx="1"/>
+          <rect class="t-media" x="22" y="22" width="8" height="8" rx="1"/>
+          <rect class="t-ai restless" x="2.8" y="22.8" width="6.4" height="6.4" rx="1"/>
+        </svg>
+    <h1>This square has moved</h1>
+    <p>The page you were looking for isn’t here. It may have found a neighbourhood it liked better.</p>
+    <p><a href="/">Back to {{ name }}</a></p>
+  </main>
+</body>
+</html>
