@@ -124,11 +124,6 @@
         <div class="secret-inner">
         <button type="button" class="abtn secret-close" data-act="close" aria-label="Close the game">Esc <span aria-hidden="true">×</span></button>
         <h2 id="play-h">You kept scrolling</h2>
-        <div class="game-switch" role="tablist" aria-label="Choose a model">
-          <button type="button" class="abtn" role="tab" data-game-tab="schelling" aria-selected="true">A · Segregation</button>
-          <button type="button" class="abtn" role="tab" data-game-tab="protest" aria-selected="false">B · Protest</button>
-        </div>
-        <div class="game-pane" data-game="schelling">
         <p class="secret-lede">This is Thomas Schelling’s model of segregation. Each square is content when enough of its neighbours share its colour; outlined squares are not, and move. Set how much alike company each square wants, press play, and watch mild preferences add up to a sorted board. Pause at any point to move squares yourself.</p>
         <div class="arcade">
           <div class="arc-top">
@@ -187,65 +182,6 @@
           </div>
         </details>
         </div>
-        <div class="game-pane" data-game="protest" hidden>
-        <p class="secret-lede">This is Mark Granovetter’s threshold model of collective action. Each of fifty people will join a protest once enough others already have; the number on each square is how many it needs. Press play and watch whether one person’s nerve becomes a crowd. Tap a square to see who it is, and tap again to persuade them to join.</p>
-        <div class="arcade">
-          <div class="arc-top">
-            <span class="arc-title"><svg class="mark arc-mark" viewBox="0 0 32 32" aria-hidden="true">
-          <rect class="t-protest" x="2" y="2" width="8" height="8" rx="1"/>
-          <rect class="t-protest" x="12" y="2" width="8" height="8" rx="1"/>
-          <rect class="t-protest" x="2" y="12" width="8" height="8" rx="1"/>
-          <rect class="t-media" x="12" y="12" width="8" height="8" rx="1"/>
-          <rect class="t-media" x="22" y="12" width="8" height="8" rx="1"/>
-          <rect class="t-media" x="12" y="22" width="8" height="8" rx="1"/>
-          <rect class="t-media" x="22" y="22" width="8" height="8" rx="1"/>
-          <rect class="t-ai restless" x="2.8" y="22.8" width="6.4" height="6.4" rx="1"/>
-        </svg>Threshold</span>
-            <span class="arc-hi">Granovetter <b>·</b> 1978</span>
-          </div>
-          <div class="arc-levels" role="group" aria-label="Crowd">
-            <button type="button" class="abtn" data-preset="riot" aria-pressed="true"><i>1</i>Riot</button>
-            <button type="button" class="abtn" data-preset="missing" aria-pressed="false"><i>2</i>One missing</button>
-            <button type="button" class="abtn" data-preset="bell" aria-pressed="false"><i>3</i>Bell curve</button>
-          </div>
-          <p class="game-note"></p>
-          <dl class="game-stats arc-hud" aria-live="polite">
-            <div><dt>Round</dt><dd data-stat="round">000</dd></div>
-            <div><dt>Protesting</dt><dd><span data-stat="crowd">0/50</span></dd></div>
-            <div><dt>Next needs</dt><dd data-stat="next">0</dd></div>
-            <div><dt>Short by</dt><dd data-stat="gap">0</dd></div>
-          </dl>
-          <div class="game-wrap arc-screen">
-            <canvas class="game-board" tabindex="0" aria-label="The square. Each cell is a person showing how many others must protest before they join. Use the arrow keys to pick a person and Enter to persuade them."></canvas>
-            <div class="arc-banner" aria-hidden="true"><b></b><span></span></div>
-            <p class="arc-inspect" aria-live="polite"></p>
-          </div>
-          <canvas class="game-chart" aria-hidden="true"></canvas>
-          <p class="game-legend" aria-hidden="true"><span class="lg-alike">Crowd</span><span class="lg-content">Thresholds ≤ x</span><span class="lg-want">Already out = needed</span></p>
-          <div class="arc-panel">
-            <label class="gslider"><span>Average <b data-out="mean">15</b></span><input type="range" data-in="mean" min="0" max="30" step="1" value="15"></label>
-            <label class="gslider"><span>Spread <b data-out="sd">6</b></span><input type="range" data-in="sd" min="0" max="15" step="1" value="6"></label>
-            <div class="game-acts">
-              <button type="button" class="abtn big" data-act="play" aria-pressed="false">Play</button>
-              <button type="button" class="abtn" data-act="step">Step</button>
-              <button type="button" class="abtn" data-act="reset">Reset</button>
-              <button type="button" class="abtn" data-act="new">New</button>
-            </div>
-          </div>
-        </div>
-        <p class="game-result" aria-live="polite"></p>
-        <details class="game-info">
-          <summary>How the model works</summary>
-          <div>
-            <p><b>The rule.</b> Each of 50 people has a threshold <i>t</i>: the number of others who must already be protesting before they join. In each round, everyone whose threshold is met by the crowd at the start of the round joins at once. Nobody leaves. The run ends when a round adds no one. A threshold of 0 is an instigator, who protests alone.</p>
-            <p><b>The chart.</b> The grey steps count how many people have a threshold of <i>x</i> or less; call that <i>F</i>(<i>x</i>). If <i>x</i> people are out, <i>F</i>(<i>x</i>) will be out next round, so the crowd climbs the orange staircase between the steps and the dashed line <i>y</i> = <i>x</i>. It stops at the first place the steps touch the line, where exactly as many people are out as are willing to be.</p>
-            <p><b>What to look for.</b> Granovetter’s point is that the same average preferences can produce opposite outcomes. In Riot, thresholds run 0, 1, 2 … 49 and the whole square joins. Change one person’s threshold from 1 to 2 (One missing) and the protest dies after the instigator, though the two crowds are almost identical. Watching the outcome, an observer would call the first crowd radical and the second moderate. In Bell curve, hold the average fixed and widen the spread: a little more variety in thresholds can supply the early joiners a cascade needs, and the crowd flips from nobody to nearly everyone.</p>
-            <p><b>The people.</b> The ages, jobs and circumstances are invented for colour and don’t affect the model; only the threshold does.</p>
-            <p class="refs">Granovetter, M. (1978). Threshold models of collective behavior. <i>American Journal of Sociology</i>, 83(6), 1420–1443. · Schelling, T. C. (1978). <i>Micromotives and Macrobehavior</i>. Norton. · Kuran, T. (1991). Now out of never: The element of surprise in the East European revolution of 1989. <i>World Politics</i>, 44(1), 7–48.</p>
-          </div>
-        </details>
-        </div>
-        </div>
       </section>
       <div class="overscroll" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </main>
@@ -253,6 +189,5 @@
   <script src="assets/site.js" defer></script>
   <script src="assets/schelling.js" defer></script>
   <script src="assets/game.js" defer></script>
-  <script src="assets/protest.js" defer></script>
 </body>
 </html>

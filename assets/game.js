@@ -1,7 +1,5 @@
 // Easter egg: keep scrolling past the bottom of the page (or open #play) and a
-// playable Schelling model opens full screen over the blurred page. A second
-// game, Granovetter's protest thresholds, lives in assets/protest.js; this file
-// owns the overlay and the switch between the two.
+// playable Schelling model opens full screen over the blurred page.
 //
 // The model runs in rounds. In each round every discontented square gets a
 // chance to move (MOVE_P). One that does looks at a few random empty cells
@@ -56,21 +54,8 @@
   let opener = null;
   document.body.appendChild(sec);
 
-  const tabs = [...sec.querySelectorAll("[data-game-tab]")];
-  const panes = [...sec.querySelectorAll(".game-pane")];
-  let active = "schelling";
-  function show(game) {
-    active = game;
-    tabs.forEach((t) => t.setAttribute("aria-selected", String(t.dataset.gameTab === game)));
-    panes.forEach((p) => (p.hidden = p.dataset.game !== game));
-    if (game === "schelling") { init(); requestAnimationFrame(() => { drawChart(); kick(30); }); }
-    else pause();
-    sec.dispatchEvent(new CustomEvent("gameswitch", { detail: game }));
-  }
-  tabs.forEach((t) => t.addEventListener("click", () => show(t.dataset.gameTab)));
-
-  function reveal(game = active) {
-    if (!sec.hidden) { if (game !== active) show(game); return; }
+  function reveal() {
+    if (!sec.hidden) return;
     opener = document.activeElement;
     sec.hidden = false;
     sec.scrollTop = 0;
@@ -79,17 +64,16 @@
     root.classList.add("game-open");
     sec.classList.remove("enter"); void sec.offsetWidth; sec.classList.add("enter");
     if (hint) { push = NEED; showHint(); setTimeout(() => { push = 0; showHint(); }, 500); }
-    show(game);
-    requestAnimationFrame(() => { if (inited) drawChart(); if (closeBtn) closeBtn.focus({ preventScroll: true }); });
+    init();
+    requestAnimationFrame(() => { drawChart(); if (closeBtn) closeBtn.focus({ preventScroll: true }); });
   }
 
   function close() {
     if (sec.hidden) return;
     pause();
-    sec.dispatchEvent(new CustomEvent("gameclose"));
     sec.hidden = true;
     root.classList.remove("game-open");
-    if (location.hash === "#play" || location.hash === "#protest") window.history.replaceState(null, "", location.pathname + location.search);
+    if (location.hash === "#play") window.history.replaceState(null, "", location.pathname + location.search);
     if (opener && opener.focus) opener.focus({ preventScroll: true });
   }
   // The scroll gesture that opened the game keeps firing (trackpad momentum);
@@ -111,8 +95,7 @@
   document.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape" && !sec.hidden) { ev.preventDefault(); close(); }
   });
-  const fromHash = () => (location.hash === "#play" ? "schelling" : location.hash === "#protest" ? "protest" : null);
-  window.addEventListener("hashchange", () => { const g = fromHash(); if (g) reveal(g); });
+  window.addEventListener("hashchange", () => { if (location.hash === "#play") reveal(); });
 
   // --- Variants ----------------------------------------------------------------
   // groups: population shares. R: neighbourhood radius. cap: the largest alike
@@ -133,8 +116,7 @@
   const PLATEAU = 20;                       // rounds with no real change before stopping
 
   // --- Elements ------------------------------------------------------------------
-  const pane = sec.querySelector('[data-game="schelling"]');
-  const $ = (q) => pane.querySelector(q);
+  const $ = (q) => sec.querySelector(q);
   const canvas = $(".game-board"), ctx = canvas.getContext("2d");
   const chart = $(".game-chart"), cctx = chart.getContext("2d");
   const out = {
@@ -146,7 +128,7 @@
   };
   const cabinet = $(".arcade");
   const tol = $('[data-in="tol"]'), vac = $('[data-in="vac"]');
-  const modeButtons = [...pane.querySelectorAll("[data-mode]")];
+  const modeButtons = [...sec.querySelectorAll("[data-mode]")];
   const playBtn = $('[data-act="play"]'), stepBtn = $('[data-act="step"]');
   const resetBtn = $('[data-act="reset"]'), newBtn = $('[data-act="new"]');
 
@@ -620,7 +602,6 @@
     window.addEventListener("resize", () => {
       clearTimeout(rt);
       rt = setTimeout(() => {
-        if (pane.hidden) return;
         const w = availW();
         drawChart();
         if (Math.abs(w - lastW) > 40) { lastW = w; newBoard(); }
@@ -628,5 +609,5 @@
     });
   }
 
-  if (fromHash()) reveal(fromHash());
+  if (location.hash === "#play") reveal();
 })();
