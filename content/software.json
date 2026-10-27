@@ -18,5 +18,14 @@
       "PyPI": "https://pypi.org/project/promptstability/",
       "Paper": "https://arxiv.org/abs/2407.02039"
     }
+  },
+  {
+    "name": "extremeR",
+    "language": "R",
+    "description": "Fit the Bayesian hierarchical case-control model for studying recruitment to extremism and other rare behaviours.",
+    "links": {
+      "GitHub": "https://github.com/cjbarrie/extremeR",
+      "Paper": "https://doi.org/10.1017/pan.2023.35"
+    }
   }
 ]
