@@ -7,6 +7,7 @@ description: Add a new paper to the website from a PDF path, DOI, arXiv id, link
 
 The site is built by `build.py` from one `.bib` per paper, with its PDF beside it:
 `papers/published/<slug>.bib` + `<slug>.pdf`, or `papers/working/<slug>.bib` + `<slug>.pdf`.
+`build.py` renders the PDF's first page to `assets/thumbs/<slug>.jpg` (needs `pdftoppm`); commit that image with the paper.
 
 The user usually sends one line, e.g. `New paper: ~/Downloads/polarization.pdf`. They may instead give a DOI, arXiv id, URL, `.bib`, or say they dropped files in `papers/inbox/`. Do everything below without further prompting, except the one question in step 6.
 

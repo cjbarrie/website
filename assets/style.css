@@ -224,7 +224,7 @@ h1 {
 
 /* Papers */
 .papers { display: flex; flex-direction: column; }
-.paper { display: grid; grid-template-columns: 56px 1fr; gap: var(--s-4); padding: var(--s-3) 0; position: relative; z-index: 0; }
+.paper { display: grid; grid-template-columns: 56px 1fr auto; gap: var(--s-4); padding: var(--s-3) 0; position: relative; z-index: 0; }
 /* The whole row is a target: a very faint wash on hover, and a small arrow after the title */
 .paper:has(.ptitle a)::before {
   content: ""; position: absolute; z-index: -1; inset: 2px calc(-1 * var(--s-3));
@@ -593,4 +593,17 @@ body > :not(#play) { transition: filter 360ms var(--ease); }
   }
   .topic-bar::-webkit-scrollbar { display: none; }
   .topic-bar .pill { flex: none; }
+}
+
+/* First-page thumbnails  */
+.pthumb { display: block; width: 64px; align-self: start; margin-top: 2px; border-radius: 3px; overflow: hidden;
+  border: 1px solid var(--c-line); background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .06), 0 4px 12px -6px rgb(0 0 0 / .18);
+  transform: rotate(0deg); transition: transform 220ms var(--ease), box-shadow 220ms var(--ease); position: relative; z-index: 1; }
+.pthumb img { display: block; width: 100%; aspect-ratio: 8.5 / 11; object-fit: cover; object-position: top; }
+.paper:hover .pthumb { transform: translateY(-2px) rotate(-1.5deg); box-shadow: 0 2px 4px rgb(0 0 0 / .08), 0 10px 22px -8px rgb(0 0 0 / .3); }
+@media (prefers-color-scheme: dark) { .pthumb { filter: brightness(.88); border-color: transparent; } }
+@media (max-width: 640px) {
+  .paper { grid-template-columns: 1fr 52px; column-gap: var(--s-3); }
+  .paper .pyear { grid-column: 1 / -1; }
+  .pthumb { width: 52px; grid-column: 2; grid-row: 2; }
 }

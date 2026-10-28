@@ -8,6 +8,7 @@ import html
 import json
 import re
 import shutil
+import subprocess
 from datetime import date
 from collections import Counter
 from pathlib import Path
@@ -94,6 +95,18 @@ def format_authors(raw, self_name):
     return ", ".join(names[:-1]) + ", and " + names[-1]
 
 
+def make_thumb(pdf):
+    """Render the PDF's first page to assets/thumbs/<slug>.jpg when it is missing or stale (needs pdftoppm)."""
+    out = ROOT / "assets" / "thumbs" / f"{pdf.stem}.jpg"
+    if out.exists() and out.stat().st_mtime >= pdf.stat().st_mtime:
+        return
+    if not shutil.which("pdftoppm"):
+        return
+    out.parent.mkdir(exist_ok=True)
+    subprocess.run(["pdftoppm", "-q", "-f", "1", "-l", "1", "-singlefile", "-scale-to", "360",
+                    "-jpeg", "-jpegopt", "quality=72", str(pdf), str(out.with_suffix(""))], check=False)
+
+
 def load_papers(status):
     folder = PAPERS / status
     papers = []
@@ -104,6 +117,7 @@ def load_papers(status):
             if pdf.exists() and not e.get("pdf"):
                 e["pdf"] = f"papers/{pdf.name}"
                 e["_pdf_src"] = pdf
+                make_thumb(pdf)
             # A local replication package sits next to the .bib as <slug>-replication.zip
             rep = bib.with_name(bib.stem + "-replication.zip")
             if rep.exists() and not e.get("replication"):
@@ -194,6 +208,12 @@ def render_paper(p, self_name):
     )
     labels = ", ".join(TOPICS[k]["label"] for k in topics)
     marks_html = f'<span class="marks" role="img" aria-label="{e(labels)}">{marks}</span>' if topics else ""
+    thumb = ""
+    if p.get("pdf"):
+        stem = Path(p["pdf"]).stem
+        if (ROOT / "assets" / "thumbs" / f"{stem}.jpg").exists():
+            thumb = (f'<a class="pthumb" href="{e(p["pdf"])}" aria-label="PDF: first page" tabindex="-1">'
+                     f'<img src="assets/thumbs/{e(stem)}.jpg" alt="" loading="lazy" decoding="async"></a>')
     search = " ".join([p.get("title", ""), p.get("author", ""), venue, p.get("year", ""), p.get("note", "")]).lower()
     return f"""
       <li class="paper" data-text="{e(search)}" data-topics="{e(" ".join(topics))}" data-year="{e(p.get("year", ""))}">
@@ -204,6 +224,7 @@ def render_paper(p, self_name):
           <p class="pmeta">{meta}</p>
           {links_html}
         </div>
+        {thumb}
       </li>"""
 
 
