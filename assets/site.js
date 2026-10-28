@@ -310,3 +310,18 @@
   lastSeed = -1e5;
   requestAnimationFrame(frame);
 })();
+
+// How far paper thumbnails may grow on hover: as large as 1.8x, limited by the margin to their right.
+(() => {
+  const set = () => {
+    const t = document.querySelector(".pthumb");
+    if (!t) return;
+    const r = t.getBoundingClientRect();
+    const room = document.documentElement.clientWidth - r.right - 16;
+    const s = Math.min(1.8, (r.width + room) / r.width);
+    document.documentElement.style.setProperty("--thumb-grow", s >= 1.2 ? s.toFixed(2) : "1");
+  };
+  let id;
+  addEventListener("resize", () => { cancelAnimationFrame(id); id = requestAnimationFrame(set); });
+  set();
+})();

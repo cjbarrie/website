@@ -600,10 +600,12 @@ body > :not(#play) { transition: filter 360ms var(--ease); }
   border: 1px solid var(--c-line); background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .06), 0 4px 12px -6px rgb(0 0 0 / .18);
   transform: rotate(0deg); transition: transform 220ms var(--ease), box-shadow 220ms var(--ease); position: relative; z-index: 1; }
 .pthumb img { display: block; width: 100%; aspect-ratio: 8.5 / 11; object-fit: cover; object-position: top; }
-.pthumb { transform-origin: top right; }
-@media (hover: hover) {
+/* On hover the thumbnail grows rightwards into the empty margin, never over text.
+   site.js sets --thumb-grow to the largest scale the margin allows. */
+.pthumb { transform-origin: left center; }
+@media (hover: hover) and (pointer: fine) {
   .paper:hover { z-index: 2; }
-  .paper:hover .pthumb { transform: scale(1.7) rotate(-1deg); box-shadow: 0 4px 8px rgb(0 0 0 / .1), 0 18px 36px -12px rgb(0 0 0 / .35); }
+  .paper:hover .pthumb { transform: scale(var(--thumb-grow, 1)); box-shadow: 0 4px 8px rgb(0 0 0 / .1), 0 18px 36px -12px rgb(0 0 0 / .35); }
 }
 @media (prefers-color-scheme: dark) { .pthumb { filter: brightness(.88); border-color: transparent; } }
 @media (max-width: 640px) {
