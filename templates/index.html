@@ -124,8 +124,8 @@
         <div class="secret-inner">
         <button type="button" class="abtn secret-close" data-act="close" aria-label="Close the game">Esc <span aria-hidden="true">×</span></button>
         <h2 id="play-h">You kept scrolling</h2>
-        <p class="secret-lede">This is Thomas Schelling’s model of segregation. Each square is content when enough of its neighbours share its colour; outlined squares are not, and move. Set how much alike company each square wants, press play, and watch mild preferences add up to a sorted board. Pause at any point to move squares yourself.</p>
-        <div class="arcade">
+        <p class="secret-lede">Welcome to the Grand Theory Prix. Pick a social scientist, race six rivals over three laps of the Ivory Tower Circuit, and grab the boxes on the track for a concept to use against them.</p>
+        <div class="arcade kart">
           <div class="arc-top">
             <span class="arc-title"><svg class="mark arc-mark" viewBox="0 0 32 32" aria-hidden="true">
           <rect class="t-protest" x="2" y="2" width="8" height="8" rx="1"/>
@@ -136,49 +136,44 @@
           <rect class="t-media" x="12" y="22" width="8" height="8" rx="1"/>
           <rect class="t-media" x="22" y="22" width="8" height="8" rx="1"/>
           <rect class="t-ai restless" x="2.8" y="22.8" width="6.4" height="6.4" rx="1"/>
-        </svg>Schelling</span>
-            <span class="arc-hi">1 Player <b>·</b> Since 1971</span>
+        </svg>Grand Theory Prix</span>
+            <span class="arc-hi">1 Player <b>·</b> 3 Laps</span>
           </div>
-          <div class="arc-levels" role="group" aria-label="Variant of the model">
-            <button type="button" class="abtn" data-mode="classic" aria-pressed="true"><i>1</i>Two groups</button>
-            <button type="button" class="abtn" data-mode="six" aria-pressed="false"><i>2</i>Six groups</button>
-            <button type="button" class="abtn" data-mode="mixing" aria-pressed="false"><i>3</i>Prefers mixing</button>
-            <button type="button" class="abtn" data-mode="minority" aria-pressed="false"><i>4</i>Majority &amp; minority</button>
-            <button type="button" class="abtn" data-mode="wide" aria-pressed="false"><i>5</i>Wide view</button>
-          </div>
-          <p class="game-note"></p>
-          <dl class="game-stats arc-hud" aria-live="polite">
-            <div><dt>Round</dt><dd data-stat="round">000</dd></div>
-            <div><dt>Content</dt><dd data-stat="content">0%</dd></div>
-            <div><dt>Alike</dt><dd><span data-stat="alike">0%</span> <small class="game-groups"></small></dd></div>
-            <div><dt>Random mix</dt><dd data-stat="base">0%</dd></div>
-          </dl>
-          <div class="game-wrap arc-screen">
-            <canvas class="game-board" tabindex="0" aria-label="Schelling board. Pause, then use the arrow keys to move and Enter to pick up and place a square."></canvas>
-            <div class="arc-banner" aria-hidden="true"><b></b><span></span></div>
-          </div>
-          <canvas class="game-chart" aria-hidden="true"></canvas>
-          <p class="game-legend" aria-hidden="true"><span class="lg-alike">Alike</span><span class="lg-content">Content</span><span class="lg-want">Wanted</span><span class="lg-base">Random mix</span></p>
-          <div class="arc-panel">
-            <label class="gslider"><span>Wants ≥ <b data-out="tol">35%</b> alike</span><input type="range" data-in="tol" min="10" max="75" step="5" value="35"></label>
-            <label class="gslider"><span>Empty cells <b data-out="vac">10%</b></span><input type="range" data-in="vac" min="6" max="20" step="2" value="10"></label>
-            <div class="game-acts">
-              <button type="button" class="abtn big" data-act="play" aria-pressed="false">Play</button>
-              <button type="button" class="abtn" data-act="step">Step</button>
-              <button type="button" class="abtn" data-act="reset">Reset</button>
-              <button type="button" class="abtn" data-act="new">New</button>
+          <div class="kart-screen arc-screen">
+            <canvas class="kart-canvas" width="480" height="270" tabindex="0" aria-label="Kart race. Left and right arrows steer, up accelerates, down brakes, space uses your item."></canvas>
+            <div class="kart-menu">
+              <p class="kart-menu-h">Choose your driver</p>
+              <div class="kart-drivers" role="radiogroup" aria-label="Driver"></div>
+              <div class="kart-pick">
+                <div class="kart-pick-text"><b data-k="name"></b><span data-k="blurb"></span></div>
+                <dl class="kart-stats" data-k="stats"></dl>
+              </div>
+              <button type="button" class="abtn big kart-go" data-act="race">Start race</button>
+            </div>
+            <div class="kart-results" hidden>
+              <p class="kart-menu-h" data-k="place"></p>
+              <ol class="kart-table"></ol>
+              <div class="kart-res-acts">
+                <button type="button" class="abtn big" data-act="again">Race again</button>
+                <button type="button" class="abtn" data-act="menu">Change driver</button>
+              </div>
             </div>
           </div>
+          <div class="kart-touch" aria-hidden="true">
+              <button type="button" class="abtn" data-touch="left">◀</button>
+              <button type="button" class="abtn" data-touch="right">▶</button>
+              <span></span>
+              <button type="button" class="abtn" data-touch="brake">Brake</button>
+              <button type="button" class="abtn big" data-touch="item">Item</button>
+            </div>
+          <p class="kart-help"><span>← → Steer</span><span>↑ Go</span><span>↓ Brake</span><span>Space Item</span><span>P Pause</span></p>
         </div>
-        <p class="game-result" aria-live="polite"></p>
         <details class="game-info">
-          <summary>How the model works</summary>
+          <summary>The drivers and the items</summary>
           <div>
-            <p><b>The rule.</b> A square’s neighbourhood is the 8 cells around it, or the 24 within two steps in Wide view. Its alike share is <i>s</i> = alike neighbours ÷ occupied neighbours. It is content when <i>s</i> is at least the threshold <i>t</i> you set; in Prefers mixing it must also be at most 75%. A square with no neighbours is content.</p>
-            <p><b>A round.</b> Moving takes time, so in each round a discontented square moves with probability 30%. A square that moves looks at 6 empty cells chosen at random and takes the nearest one where it would be content; if none of them suits, it stays where it is. Separately, 1% of all squares move to a random empty cell each round for reasons of their own, as people do, so the board never quite freezes and some squares are always unsettled. The run stops once alike neighbours change by less than one point over 20 rounds, or after 150 rounds.</p>
-            <p><b>The measures.</b> <i>Alike neighbours</i> is the average of <i>s</i> over all squares that have neighbours. <i>If mixed at random</i> is the value expected if the same squares were shuffled: Σ<sub>g</sub> n<sub>g</sub>(n<sub>g</sub> − 1) / N(N − 1). That is 50% for two equal groups, about 17% for six, and about 62% for a 75:25 split. <i>Content</i> is the share of squares that are content right now. Changing the threshold replays the same starting board, so runs can be compared.</p>
-            <p><b>What to look for.</b> Schelling’s point is the gap between the dashed line and the orange one. With a threshold of 35%, no square minds being in the minority, yet the board typically levels off well above the random mix. Because a few squares keep moving for other reasons, content never quite reaches 100%, and alike patches keep slowly growing even once nearly everyone is content. Set the threshold to 75% and the board stays frustrated: many squares can never be satisfied. With a 75:25 split, the majority’s alike share barely moves from its 75% starting point, while the minority’s rises far above its 25% share of the population; some minority squares may never find a place that suits them. In Prefers mixing, squares that dislike being a large majority still end up well above the random mix and often never settle, in line with Zhang (2004) and Pancs and Vriend (2007).</p>
-            <p class="refs">Schelling, T. C. (1971). Dynamic models of segregation. <i>Journal of Mathematical Sociology</i>, 1(2), 143–186. · Schelling, T. C. (1978). <i>Micromotives and Macrobehavior</i>. Norton. · Zhang, J. (2004). Residential segregation in an all-integrationist world. <i>Journal of Economic Behavior &amp; Organization</i>, 54(4), 533–550. · Pancs, R., &amp; Vriend, N. J. (2007). Schelling’s spatial proximity model of segregation revisited. <i>Journal of Public Economics</i>, 91(1–2), 1–24.</p>
+            <p><b>The items.</b> Drive through a box to get one. <i>Collective effervescence</i> (Durkheim) gives you a burst of speed. <i>The iron cage</i> (Weber, as translated by Parsons) is dropped behind you and traps whoever hits it. <i>Anomie</i> (Durkheim) leaves everyone ahead of you without norms, so they wobble and slow down. <i>Revolution</i> (Marx) overthrows whoever is in first place. <i>The stranger</i> (Simmel), near and far at once, lets you pass straight through traps and rivals for a few seconds. Durkheim, Weber and Marx are twice as likely to draw their own concept.</p>
+            <p><b>The drivers.</b> Hannah Arendt, <i>The Origins of Totalitarianism</i> (1951). Simone de Beauvoir, <i>The Second Sex</i> (1949). W. E. B. Du Bois, <i>The Souls of Black Folk</i> (1903). Émile Durkheim, <i>Suicide</i> (1897). Karl Marx, <i>Capital</i> (1867). Max Weber, <i>The Protestant Ethic and the Spirit of Capitalism</i> (1905). Ida B. Wells, <i>Southern Horrors</i> (1892).</p>
+            <p><b>Watch out for Reviewer 2.</b> The puddles on the track spin you out.</p>
           </div>
         </details>
         </div>
@@ -189,5 +184,6 @@
   <script src="assets/site.js" defer></script>
   <script src="assets/schelling.js" defer></script>
   <script src="assets/game.js" defer></script>
+  <script src="assets/kart.js" defer></script>
 </body>
 </html>
