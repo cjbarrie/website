@@ -19,7 +19,7 @@ Everything except papers is plain files:
 
 ## Notes
 
-- **CV**: save the PDF as `assets/cv.pdf` and set `links.cv` to `assets/cv.pdf`. Compress if over 2 MB.
+- **CV**: the LaTeX source is `cv/main.tex` (keep its existing style). Edit it, then run `cv/build.sh`, which compiles with XeLaTeX and copies the result to `assets/cv.pdf` (`links.cv` already points there). `cv/fonts/Fontin-SmallCaps.otf` is gitignored; copy it in from the user's `~/Downloads/resume/fonts/` if missing. When papers change, update the CV's Publications and Under Review lists to match.
 - **Photo**: resize with `sips -Z 800 photo.jpg` (Mac) or Python Pillow before saving; keep the old one until the new one is checked.
 - **New research area**: add `key`, `label`, `short`, `color` and `color_dark` to `content/topics.json`, picking muted colours that match the others. Then tag the relevant papers (see **update-paper**).
 - Keep the bio in the user's own words; only edit wording they asked to change.
